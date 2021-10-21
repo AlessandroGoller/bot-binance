@@ -5,6 +5,7 @@ import dateparser
 import pytz
 from datetime import datetime
 from datetime import date
+import numpy as np
 
 today = date.today()
 def date_to_milliseconds(date_str):
@@ -41,5 +42,7 @@ def save_datafile(klines,symbol,interval,start,end=today):
         ),
         'w' # set file write mode
     ) as f:
+        if type(klines).__module__ == np.__name__:
+            klines=klines.tolist()
         f.write(json.dumps(klines))
                 
