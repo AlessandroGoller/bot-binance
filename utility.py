@@ -1,4 +1,5 @@
 # Utilities, support functions
+from decouple import config
 
 def read_data():
     print('Under construction')
@@ -6,4 +7,4 @@ def read_data():
 def plot_data():
     print('Under construction')
 
-
+print(config('lol'))
