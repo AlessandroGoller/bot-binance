@@ -8,6 +8,7 @@ def read_data():
 def plot_data():
     print('Under construction')
 
+
 api_key = config('binance_key')
 api_secret = config('binance_secret')
 
