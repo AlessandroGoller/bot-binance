@@ -67,7 +67,7 @@ X_test  = X_test.reshape(-1, 100, 1)
 y_train = y_train.reshape(-1)
 ytest = ytest.reshape(-1)
 
-model.fit(X_train,y_train,validation_data=(X_test,ytest),epochs=2,batch_size=64,verbose=1)
+model.fit(X_train,y_train,validation_data=(X_test,ytest),epochs=100,batch_size=64,verbose=1)
 
 ### Lets Do the prediction and check performance metrics
 train_predict=model.predict(X_train)
@@ -101,15 +101,16 @@ plt.plot(testPredictPlot)
 plt.show()
 
 ### demonstrate prediction for next 10 days, penso che è nelle 5 ore dopo per noi
-
-val=len(test_data)-100
-
+print(len(test_data))
+val=(len(test_data)-100)
+print(val)
 x_input=test_data[val:].reshape(1,-1)
 #x_input.shape
+print(x_input.shape)
 
 temp_input=list(x_input)
 temp_input=temp_input[0].tolist()
-
+print('Inizio Ciclo per i giorni')
 
 lst_output=[]
 n_steps=100
@@ -142,7 +143,7 @@ while(i<30):
 day_new=np.arange(1,101)
 day_pred=np.arange(101,131)
 
-val=len(df1)-100
+val=(len(df1)-100)
 
 plt.figure(figsize = (18,9))
 plt.plot(day_new,scaler.inverse_transform(df1[val:]))
