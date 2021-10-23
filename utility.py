@@ -4,6 +4,8 @@ from binance.client import Client
 from function import *
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+import numpy
 
 def read_data():
     print('Under construction')
@@ -19,12 +21,19 @@ def plot_data():
 # btc_price = client.get_symbol_ticker(symbol="BTCUSDT")
 # print(btc_price)
 
+# convert an array of values into a dataset matrix
+#NON SO ESATTAMENTE COSA FACCIA
+def create_dataset(dataset, time_step=1):
+    dataX, dataY = [], []
+    for i in range(len(dataset)-time_step-1):
+        a = dataset[i:(i+time_step), 0]   ###i=0, 0,1,2,3-----99   100 
+        dataX.append(a)
+        dataY.append(dataset[i + time_step, 0])
+    return numpy.array(dataX), numpy.array(dataY)
+    
 
-
-
-def dati():
+def dati(start = "1 Oct, 2020"):
     symbol = "ETHUSDT"
-    start = "1 Oct, 2021"
     end = ""
     client = Client("", "")
     interval = Client.KLINE_INTERVAL_30MINUTE #permette di cambiare l'intervallo
