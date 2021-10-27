@@ -32,11 +32,12 @@ def create_dataset(dataset, time_step=1):
     return numpy.array(dataX), numpy.array(dataY)
     
 
-def dati(start = "1 Oct, 2020"):
+def dati(start = "1 Oct, 2017"):
     symbol = "ETHUSDT"
     end = ""
     client = Client("", "")
-    interval = Client.KLINE_INTERVAL_30MINUTE #permette di cambiare l'intervallo
+    #interval = Client.KLINE_INTERVAL_30MINUTE #permette di cambiare l'intervallo
+    interval = Client.KLINE_INTERVAL_4HOUR #permette di cambiare l'intervallo
     klines = client.get_historical_klines(symbol, interval,  start)
     klines=np.array(klines)
     klines=np.delete(klines,[2,3,5,6,7,8,9,10,11],1)
