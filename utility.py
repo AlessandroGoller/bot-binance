@@ -13,8 +13,14 @@ def read_data():
 def plot_data():
     print('Under construction')
 
+<<<<<<< HEAD
 #api_key = config('binance_key')
 #api_secret = config('binance_secret')
+=======
+
+api_key = config('binance_key')
+api_secret = config('binance_secret')
+>>>>>>> a5af0be4c2f58375393cba1469fdc958d0f1d439
 
 #client = Client(api_key, api_secret)
 #client = Client("", "")
