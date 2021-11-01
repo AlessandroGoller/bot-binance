@@ -25,10 +25,10 @@ def plot_data():
 #NON SO ESATTAMENTE COSA FACCIA
 def create_dataset(dataset, time_step=1):
     dataX, dataY = [], []
-    for i in range(len(dataset)-time_step-1):
+    for i in range(len(dataset)-(time_step*2)):
         a = dataset[i:(i+time_step), 0]   ###i=0, 0,1,2,3-----99   100 
         dataX.append(a)
-        dataY.append(dataset[i + time_step, 0])
+        dataY.append(dataset[i + (time_step*2), 0])
     return numpy.array(dataX), numpy.array(dataY)
     
 

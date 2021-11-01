@@ -39,21 +39,20 @@ def LSTM_preparation():
 
 def dati_for_LSTM():
 
-    #print(df1)
-    #plotta_singolo(df1)
     scaler,klines,mini,close,df1=LSTM_preparation()
     ##splitting dataset into train and test split
-    training_size=int(len(df1)*0.65)
-    test_size=len(df1)-training_size
-    train_data,test_data=df1[0:training_size,:],df1[training_size:len(df1),:1]
+    training_size=int(len(df1)*0.60)
+    test_size=int(len(df1)*0.90)
+    last_size=int(len(df1))-test_size
+    train_data,test_data,last_data=df1[0:training_size,:],df1[training_size:test_size,:1],df1[test_size:len(df1),:1]
 
     # reshape into X=t,t+1,t+2,t+3 and Y=t+4
     time_step = 100 #deve essere minore di X_train e X_test
     X_train, y_train = create_dataset(train_data, time_step)
     X_test, ytest = create_dataset(test_data, time_step)
     print('Formato Train: X={},y={}'.format(X_train.shape,ytest.shape))
-    X_train = X_train.reshape(-1, 100, 1)
-    X_test  = X_test.reshape(-1, 100, 1)
+    X_train = X_train.reshape(-1, time_step, 1)
+    X_test  = X_test.reshape(-1, time_step, 1)
     y_train = y_train.reshape(-1)#-1
     ytest = ytest.reshape(-1)#-1
     print('Formato Train Afer reshape: X={},y={}'.format(X_train.shape,ytest.shape))
@@ -128,7 +127,7 @@ if __name__ == "__main__":
     # shift test predictions for plotting
     testPredictPlot = numpy.empty_like(df1)
     testPredictPlot[:, :] = numpy.nan
-    testPredictPlot[len(train_predict)+(look_back*2)+1:len(df1)-1, :] = test_predict
+    testPredictPlot[len(train_predict)+(look_back*2)+1:len(train_predict)+(look_back*2)+1+len(test_predict), :] = test_predict
     # plot baseline and predictions
     plt.plot(scaler.inverse_transform(df1))
     plt.plot(trainPredictPlot)
