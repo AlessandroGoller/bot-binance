@@ -24,9 +24,8 @@ for file in os.listdir(datapath):
 
 # FUNCTIONS FOR CONVENTIONAL (NON AI) ANALYSIS
 
-def macd(sequence,short_period,long_period):
+def macd(sequence,short_period=12,long_period=26,intermediate_period=9):
     # Calculate the mean average convergence divergence indicator
-    
     # Calculating EMAshort and EMAlong
     k_short = 2/(short_period+1)
     k_long = 2/(long_period+1)
@@ -40,30 +39,33 @@ def macd(sequence,short_period,long_period):
         EMA_long.append(sequence[t]*k_long+EMA_long[t-long_period]*(1-k_long))
     
     # Inserting zeros at the beginning of the series 
-    for i in range(long_period):
+    for i in range(long_period-1):
         EMA_long.insert(0,0)
-    for i in range(short_period):
+    for i in range(short_period-1):
         EMA_short.insert(0,0)
     
     diff = [i-j for i,j in zip(EMA_short, EMA_long)]
 
     EMA_diff = []
-    EMA_diff.append(sum(diff[0:9])/9)
-    k_diff = 2/(9+1)
-    for t in range(9,len(diff)):
-        EMA_diff.append(diff[t]*k_diff+EMA_diff[t-9]*(1-k_diff))
+    EMA_diff.append(sum(diff[0:intermediate_period])/intermediate_period)
+    k_diff = 2/(intermediate_period+1)
+    for t in range(intermediate_period,len(diff)):
+        EMA_diff.append(diff[t]*k_diff+EMA_diff[t-intermediate_period]*(1-k_diff))
     
-    for i in range(8):
+    for i in range(intermediate_period-1):
         EMA_diff.insert(0,0)
 
     macd = [i-j for i,j in zip(diff, EMA_diff)]
 
     return macd
 
-macd_values = macd(prices,12,26)
-
-plt.plot(prices[:1000],label='Price')
-plt.plot(macd_values[:1000],label='macd')
+macd_values = macd(prices,12,26,9) 
+figure = plt.figure()
+ax = figure.subplots()
+ax.plot(prices[50:200],label='Price')
+figure2 = plt.figure()
+ax2 = figure2.subplots()
+ax2.plot(macd_values[50:200],label='macd')
 plt.legend()
 plt.show()
 
