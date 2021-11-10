@@ -24,7 +24,7 @@ for file in os.listdir(datapath):
 
 # FUNCTIONS FOR CONVENTIONAL (NON AI) ANALYSIS
 
-def macd(sequence,short_period=12,long_period=26,intermediate_period=9):
+def macd_indicator(sequence,short_period=12,long_period=26,intermediate_period=9):
     # Calculate the mean average convergence divergence indicator
     # Calculating EMAshort and EMAlong
     k_short = 2/(short_period+1)
@@ -59,15 +59,37 @@ def macd(sequence,short_period=12,long_period=26,intermediate_period=9):
 
     return macd
 
-macd_values = macd(prices,12,26,9) 
-figure = plt.figure()
-ax = figure.subplots()
-ax.plot(prices[50:200],label='Price')
-figure2 = plt.figure()
-ax2 = figure2.subplots()
-ax2.plot(macd_values[50:200],label='macd')
-plt.legend()
-plt.show()
+def rsi_indicator(sequence, lookback_window=14):
+    # Implement the relative strength index for a give sequence
+    print('Under construction')
+    shifted_sequence = [i for i in sequence]
+    sequence = sequence[1:]
+    difference = [i-j for i, j in zip(sequence,shifted_sequence)]
+    # print(sequence[0:2])
+    # print(shifted_sequence[0:2])
+    # print(difference[0:2])
+    positive_gain = 0
+    negative_gain = 0 
+    for i in range(lookback_window):
+        if(difference[i]>0):
+            positive_gain += difference[i]*100/shifted_sequence[i]
+        else:
+            negative_gain += abs(difference[i])*100/shifted_sequence[i]
+    rsi = []
+    rsi.append(100-(100/(1+((positive_gain/lookback_window))/(negative_gain/lookback_window))))
+    
+    # for i in range(lookback_window,len(sequence)):
+    #     print('Calculate RSI step two')
+
+rsi_values = rsi_indicator(prices) 
+# figure = plt.figure()
+# ax = figure.subplots()
+# ax.plot(prices[50:200],label='Price')
+# figure2 = plt.figure()
+# ax2 = figure2.subplots()
+# ax2.plot(macd_values[50:200],label='macd')
+# plt.legend()
+# plt.show()
 
 # FUNCTIONS FOR NN ANALYSIS
 
